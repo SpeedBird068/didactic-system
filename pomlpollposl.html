@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        body {
+            margin: 0;
+            font-family: 'Arial', sans-serif;
+            background: #f5f5f5;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 20px auto;
+            background: linear-gradient(180deg, #004481 0%, #01a0e2 50%, white 100%);
+            padding: 40px 20px;
+            border-radius: 20px;
+            box-shadow: 0 0 30px rgba(0,0,0,0.15);
+            position: relative;
+            overflow: hidden;
+            min-height: 600px;
+        }
+        .journey-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: relative;
+            padding-top: 100px;
+        }
+        .airplane-path {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+        }
+        .path {
+            position: absolute;
+            top: 50px;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: white;
+            z-index: 1;
+            opacity: 0.7;
+        }
+        .airplane {
+            position: absolute;
+            width: 60px;
+            height: 60px;
+            top: 22px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 2;
+            animation: float 3s ease-in-out infinite;
+        }
+        @keyframes float {
+            0%, 100% { transform: translateY(0) rotate(45deg); }
+            50% { transform: translateY(-10px) rotate(45deg); }
+        }
+        .leverage-point {
+            width: 30%;
+            padding: 25px;
+            border-radius: 15px;
+            cursor: pointer;
+            transition: all 0.3s;
+            position: relative;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+            z-index: 3;
+        }
+        #poml {
+            background: #c2edff;
+            color: #004481;
+            margin-top: -50px;
+        }
+        #poll {
+            background: #01a0e2;
+            color: white;
+            margin-top: 50px;
+        }
+        #posl {
+            background: #004481;
+            color: white;
+            margin-top: -50px;
+        }
+        .leverage-point:hover {
+            transform: translateY(-5px);
+        }
+        .title {
+            font-size: 1.4em;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+        .description {
+            font-size: 1em;
+            margin-bottom: 20px;
+            opacity: 0.9;
+        }
+        .points-list {
+            display: none;
+            margin-top: 15px;
+            padding-left: 0;
+            transition: all 0.3s ease;
+        }
+        .point {
+            list-style: none;
+            margin: 10px 0;
+            padding: 8px 15px;
+            border-radius: 5px;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+        }
+        #poml .point {
+            background: rgba(1, 160, 226, 0.1);
+        }
+        #poll .point {
+            background: rgba(255, 255, 255, 0.1);
+        }
+        #posl .point {
+            background: rgba(255, 255, 255, 0.1);
+        }
+        .point:hover {
+            transform: translateX(5px);
+        }
+        .point::before {
+            content: '✈';
+            margin-right: 10px;
+            font-size: 0.9em;
+        }
+        .location-indicator {
+            position: absolute;
+            top: -30px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #004481;
+            color: white;
+            padding: 5px 15px;
+            border-radius: 15px;
+            font-size: 0.8em;
+            white-space: nowrap;
+        }
+        #poll .location-indicator {
+            background: #01a0e2;
+        }
+        #posl .location-indicator {
+            background: #004481;
+        }
+
+        @media (max-width: 900px) {
+            .journey-container {
+                flex-direction: column;
+                gap: 40px;
+            }
+            .leverage-point {
+                width: 80%;
+                margin: 0;
+            }
+            .path {
+                display: none;
+            }
+            .airplane {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="airplane-path">
+            <div class="path"></div>
+            <svg class="airplane" viewBox="0 0 24 24" fill="white">
+                <path d="M21,16V14L13,9V3.5C13,2.67 12.33,2 11.5,2C10.67,2 10,2.67 10,3.5V9L2,14V16L10,13.5V19L8,20.5V22L11.5,21L15,22V20.5L13,19V13.5L21,16Z"/>
+            </svg>
+        </div>
+        <div class="journey-container">
+            <div class="leverage-point" id="poml" onclick="togglePoints('poml')">
+                <div class="location-indicator">On the Ground</div>
+                <div class="title">POML</div>
+                <div class="description">Place of Most Leverage</div>
+                <ul class="points-list">
+                    <li class="point">Routine (Protocol)</li>
+                    <li class="point">Sleep</li>
+                    <li class="point">Productivity Work</li>
+                    <li class="point">Work Life Balance</li>
+                    <li class="point">Renewal</li>
+                </ul>
+            </div>
+
+            <div class="leverage-point" id="poll" onclick="togglePoints('poll')">
+                <div class="location-indicator">In Transit</div>
+                <div class="title">POLL</div>
+                <div class="description">Place of Least Leverage</div>
+                <ul class="points-list">
+                    <li class="point">Hydration</li>
+                    <li class="point">Movement</li>
+                    <li class="point">Meal timing</li>
+                    <li class="point">Light Manipulation</li>
+                    <li class="point">Napping|Sleep|NSDR</li>
+                </ul>
+            </div>
+
+            <div class="leverage-point" id="posl" onclick="togglePoints('posl')">
+                <div class="location-indicator">At Destination</div>
+                <div class="title">POSL</div>
+                <div class="description">Place of Some Leverage</div>
+                <ul class="points-list">
+                    <li class="point">Resources Available</li>
+                    <li class="point">Locale Landscape</li>
+                    <li class="point">Facilities</li>
+                    <li class="point">Opportunities</li>
+                    <li class="point">Social</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function togglePoints(section) {
+            const pointsList = document.querySelector(`#${section} .points-list`);
+            const currentDisplay = pointsList.style.display;
+            pointsList.style.display = currentDisplay === 'block' ? 'none' : 'block';
+        }
+    </script>
+</body>
+</html>
